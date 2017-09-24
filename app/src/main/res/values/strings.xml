@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LexicalAnalyzer</string>
+    <string name="test_name">导入实例源程序</string>
+    <string name="mytest_name">导入本地TXT文件</string>
 </resources>

@@ -1,11 +1,18 @@
 package com.example.xin.lexicalanalyzer;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * 作业要求：
@@ -18,31 +25,76 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity {
 
-    EditText original;
+    TextView original;
     Button trans;
     TextView translation;
 
     StringBuilder builder = new StringBuilder();
     StringBuilder transBuilder;
     TextLexer textLexer;
+    BufferedReader reader = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
-    }
-    private void init(){
-        original = (EditText) findViewById(R.id.original);
+        original = (TextView) findViewById(R.id.original);
         trans = (Button) findViewById(R.id.trans);
         translation = (TextView) findViewById(R.id.translation);
         trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                builder.append(original.getText().toString());
-                textLexer = new TextLexer(builder);
-                transBuilder = textLexer.analyse();
-                translation.setText(transBuilder.toString());
+                if (builder != null){
+                    textLexer = new TextLexer(builder);
+                    transBuilder = textLexer.analyse();
+                    translation.setText(transBuilder.toString());
+                }else {
+                    Toast.makeText(MainActivity.this,
+                            "builder为空",Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    //自定义菜单
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    //为菜单设置点击动作
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.test:
+                InputStream is = getResources().openRawResource(R.raw.test);
+                reader = new BufferedReader(new InputStreamReader(is));
+                String line = "";
+                try {
+                    while ((line = reader.readLine()) != null){
+                        builder.append(line);
+                        original.append(line + '\n');
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    if (reader != null){
+                        try {
+                            reader.close();
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                break;
+            case R.id.mytest:
+                //暂未实现此功能
+                Toast.makeText(MainActivity.this,"暂未实现此功能",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }

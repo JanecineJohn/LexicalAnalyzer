@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LexicalAnalyzer.iml" filepath="$PROJECT_DIR$/LexicalAnalyzer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LexicalAnalyzer-master.iml" filepath="$PROJECT_DIR$/LexicalAnalyzer-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
