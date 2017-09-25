@@ -43,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
         trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (builder != null){
+                if (builder.length() != 0){
                     textLexer = new TextLexer(builder);
                     transBuilder = textLexer.analyse();
                     translation.setText(transBuilder.toString());
                 }else {
                     Toast.makeText(MainActivity.this,
-                            "builder为空",Toast.LENGTH_SHORT).show();
+                            "内容为空,请输入源程序",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.test:
+                clear();//清除显示框和builder
                 InputStream is = getResources().openRawResource(R.raw.test);
                 reader = new BufferedReader(new InputStreamReader(is));
                 String line = "";
@@ -96,5 +97,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+    private void clear(){
+        original.setText("");//清空源程序显示框
+        translation.setText("");//清空翻译显示框
+        builder.replace(0,builder.length(),"");//清空builder
     }
 }
